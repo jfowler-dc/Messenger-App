@@ -47,6 +47,9 @@ export default {
     margin-bottom:3px;
     display:flex;
   }
+  .message:last-child {
+    padding-bottom:10px;
+  }
   .mine {
     margin-left:auto;
   }

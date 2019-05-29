@@ -1,5 +1,5 @@
 <template>
-  <div id="container">
+  <div class="container">
     <aside>
       <div id="UserOptions">
         <i class="fal fa-cog"></i>
@@ -10,17 +10,22 @@
     </aside>
 
     <div id="messageContainer">
-      <div id="messageOptions">
-          <span>{{currentUser.username}}<br><span class="light">{{currentUser.email}}</span></span>
-          <button @click="logout">Logout</button>
-          <i class="fal fa-info-circle"></i>
-      </div>
-      <div id="messageSend" v-chat-scroll="{always: true, smooth: true, scrollonremoved:true}">
-        <Messages :selectedUser="selectedUser" :authUserId="auth.currentUser.uid" :currentChatroom="currentRoom" />
-        <div id="userInfo">
+      <div class="container">
+        <div id="messageOptions">
+            <span>{{currentUser.username}}<br><span class="light">{{currentUser.email}}</span></span>
+            <button @click="logout">Logout</button>
+            <i @click="showInfo" class="fal fa-info-circle"></i>
         </div>
+        <div id="allMessages">
+          <div id="messageSend" v-chat-scroll="{always: true, smooth: true, scrollonremoved:true}">
+            <Messages :selectedUser="selectedUser" :authUserId="auth.currentUser.uid" :currentChatroom="currentRoom" />
+          </div>
+          <div v-if="info == true" id="userInfo">
+          </div>
+        </div>
+        <SendMessage :currentChatroom="currentRoom" :userImage="currentUser.image" :selectedUser="selectedUser" :currentUserName="currentUser.username" :authUserId="auth.currentUser.uid" />
       </div>
-      <SendMessage :currentChatroom="currentRoom" :userImage="currentUser.image" :selectedUser="selectedUser" :currentUserName="currentUser.username" :authUserId="auth.currentUser.uid" />
+      
     </div>
   </div>
 </template>
@@ -42,6 +47,7 @@ export default {
       auth: firebase.auth(),
       selectedUser: 'u7xIippDkcS6QgMdLr9PJ8MiyO63',
       data: [],
+      info: false,
       currentRoom: this.$route.params.id,
       currentUser: {
         email: '',
@@ -70,6 +76,13 @@ export default {
               this.currentUser = doc.data()
           });
       });
+    },
+    showInfo() {
+      if (this.info == false) {
+        this.info = true
+      } else {
+        this.info = false
+      }
     }
   },
   components: {
@@ -82,7 +95,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  #container {
+  .container {
     width:100%;
     max-height:100%;
     display:flex;
@@ -125,12 +138,18 @@ export default {
   #messageContainer {
     width:100%;
     max-height:100%;
+    display:flex;
+  }
+  #messageContainer .container {
+    display:flex;
+    flex-wrap:wrap;
   }
   #messageOptions {
     width:100%;
     display:flex;
     align-items:center;
     min-height:50px;
+    max-height:50px;
     border-bottom:1px solid rgba(0, 0, 0, .10);
     box-sizing:border-box;
     padding:0 12px;
@@ -151,16 +170,23 @@ export default {
   #messageOptions i {
     margin-left:12px;
   }
+
   #messageSend {
     width:100%;
     overflow: scroll;
-    min-height:calc(100% - 100px);
-    max-height:calc(100% - 100px);
     box-sizing:border-box;
     padding:12px;
+    display:flex;
   }
   #userInfo {
-    width:200px;
+    min-width:300px;
     height:100%;
+    border-left:1px solid rgba(0, 0, 0, .10);;
+  }
+  #allMessages {
+    display:flex;
+    height:100%;
+    max-height:calc(100% - 100px);
+    width:100%;
   }
 </style>

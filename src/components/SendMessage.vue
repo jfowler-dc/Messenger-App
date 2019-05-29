@@ -163,6 +163,7 @@ export default {
     display:flex;
     align-items:center;
     height:50px;
+    max-height:50px;
     box-sizing:border-box;
     padding:0 12px;
   }
