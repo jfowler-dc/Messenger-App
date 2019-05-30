@@ -4,6 +4,7 @@
     <div v-if="auth.currentUser.uid === uid" class="message-container mine">
       <div v-if="icon != 'thumbs-up'" class="message-text">
         <span>{{message}}</span>
+        <link-prevue v-if="link != ''" :url="link" />
       </div>
       <div v-else v-html="message" class="thumbs-up"></div>
     </div>
@@ -14,6 +15,7 @@
       </div>
       <div v-if="icon != 'thumbs-up'" class="message-text">
         <span>{{message}}</span>
+        <link-prevue v-if="link != ''" :url="link" />
       </div>
       <div v-else v-html="message" class="thumbs-up">
         
@@ -26,17 +28,35 @@
 <script>
 
 import firebase from 'firebase'
+import LinkPrevue from 'link-prevue'
+
 
 export default {
   name: 'Message',
   props: ['name', 'message', 'id', 'uid', 'icon', 'image'],
   data () {
     return {
-      auth: firebase.auth()
+      auth: firebase.auth(),
+      link: ''
     }
   },
+  mounted() {
+    this.checkUrl(this.message)
+  },
   methods: {
-  	
+  	checkUrl(text) {
+      const geturl = new RegExp(
+          "(^|[ \t\r\n])((ftp|http|https|gopher|mailto|news|nntp|telnet|wais|file|prospero|aim|webcal):(([A-Za-z0-9$_.+!*(),;/?:@&~=-])|%[A-Fa-f0-9]{2}){2,}(#([a-zA-Z0-9][a-zA-Z0-9$_.+!*(),;/?:@&~=%-]*))?([A-Za-z0-9$_+!*();/?:~-]))"
+         ,"g"
+       );
+      var link = text.match(geturl)
+      if (link != null && link.length > 0) {
+        this.link = link[0]
+      }
+    }
+  },
+  components: {
+    LinkPrevue
   }
 }
 </script>
@@ -44,11 +64,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   .message {
-    margin-bottom:3px;
     display:flex;
-  }
-  .message:last-child {
-    padding-bottom:10px;
   }
   .mine {
     margin-left:auto;
@@ -65,6 +81,10 @@ export default {
   .message-container {
     max-width:70%;
     display:flex;
+    margin-bottom:3px;
+  }
+  .message:last-child .message-container {
+    margin-bottom:20px;
   }
   .message-text {
     border-radius:20px;

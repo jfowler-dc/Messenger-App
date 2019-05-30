@@ -75,7 +75,7 @@ export default {
             message: this.message.trim(),
             userid: this.authUserId,
             image: this.userImg(),
-            date: Date.now()
+            date: firebase.firestore.Timestamp.fromDate(new Date()).seconds +'.'+firebase.firestore.Timestamp.fromDate(new Date()).nanoseconds
           })
           .then((docRef) => {
             console.log(docRef.parent.parent.id)

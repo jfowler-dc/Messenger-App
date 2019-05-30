@@ -1,7 +1,7 @@
 <template>
 	<div class="current-room">
 		<div v-if="messages.length != 0">
-			<Message v-for="(item, index) in sortedItems" :uid="item.userid" :icon="item.icon" :image="item.image" :name="item.name" :message="item.message" :key="index" :id="index" />
+			<Message v-for="(item, index) in sortedItems" :uid="item.userid" :icon="item.icon" :image="item.image" :name="item.name" :message="item.message" :key="item.date" :date="item.date" :id="item.date" />
 		</div>
 		<div v-else>
 			<p>Be the first to send a message!</p>
@@ -26,7 +26,7 @@ export default {
   computed: {
   	sortedItems() {
         this.messages.sort( (a, b) => {
-            return new Date(a.date) - new Date(b.date)
+            return a.date - b.date
         });
         return this.messages
     }
