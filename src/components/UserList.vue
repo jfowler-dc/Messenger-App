@@ -1,6 +1,6 @@
 <template>
   <div>
-    <User v-for="(user, index) in users" v-if="user.userid !== authUser.currentUser.uid" :username="user.username" :email="user.email" :userid="user.userid" :image="user.image" :lastMessage="user.lastMessage" :id="index" />
+    <User v-for="(user, index) in users" v-if="user.userid !== authUser.currentUser.uid" :username="user.username" :email="user.email" :userid="user.userid" :image="user.image" :key="user.userid" :lastMessage="user.lastMessage" :id="index" />
   </div>
 </template>
 

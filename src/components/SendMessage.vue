@@ -98,10 +98,10 @@ export default {
           message: "<i style='font-size:"+this.determineFontSize()+"px' class='fas fa-thumbs-up'></i>",
           userid: this.authUserId,
           icon: 'thumbs-up',
-          date: Date.now()
+          date: firebase.firestore.Timestamp.fromDate(new Date()).seconds +'.'+firebase.firestore.Timestamp.fromDate(new Date()).nanoseconds
         })
         .then((docRef) => {
-          console.log(docRef.parent.parent.id)
+          console.log(docRef)
           this.count = 0
         })
         .catch((error) => {
