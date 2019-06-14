@@ -21,6 +21,7 @@
             <Messages :selectedUser="selectedUser" :authUserId="auth.currentUser.uid" :currentChatroom="currentRoom" />
           </div>
           <div v-if="info == true" id="userInfo">
+            <h2>User Info</h2>
           </div>
         </div>
         <SendMessage :currentChatroom="currentRoom" :userImage="currentUser.image" :selectedUser="selectedUser" :currentUserName="currentUser.username" :authUserId="auth.currentUser.uid" />
@@ -74,6 +75,7 @@ export default {
         .then((querySnapshot) => {
           querySnapshot.forEach( (doc) => {
               this.currentUser = doc.data()
+              console.log(doc.data())
           });
       });
     },

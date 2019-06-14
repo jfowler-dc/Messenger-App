@@ -83,9 +83,11 @@ export default {
           .catch((error) => {
             console.error("Error adding document: ", error)
           });
+
         firebase.firestore().collection("users").doc(this.authUserId).update({
           lastMessage: this.limitMessage()
         })
+
         this.message = ''
       }
     },
@@ -107,9 +109,11 @@ export default {
         .catch((error) => {
           console.error("Error adding document: ", error)
         });
+        
       firebase.firestore().collection("users").doc(this.authUserId).update({
         lastMessage: this.limitMessage()
       })
+
       this.message = ''
     },
     start() {

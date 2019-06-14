@@ -4,7 +4,28 @@
     <div v-if="auth.currentUser.uid === uid" class="message-container mine">
       <div v-if="icon != 'thumbs-up'" class="message-text">
         <span>{{message}}</span>
-        <link-prevue v-if="link != ''" :url="link" />
+        <link-prevue v-if="link != ''" :url="link" >
+          <template slot="loading">
+            <div class="unfurl">
+              <div class="unfurl-block">
+                <p>Loading...</p>
+              </div>
+            </div>
+          </template>
+          <template slot-scope="props">
+            <a v-bind:href="props.url">
+            <div class="unfurl">
+              <div class="unfurl-img" >
+                <img :src="props.img" :alt="props.title">
+              </div>
+              <div class="unfurl-block">
+                <h4 class="unfurl-title">{{props.title}}</h4>
+                <!-- <p class="unfurl-text">{{props.description}}</p> -->          
+              </div>
+            </div>
+            </a>
+          </template>
+        </link-prevue>
       </div>
       <div v-else v-html="message" class="thumbs-up"></div>
     </div>
@@ -15,7 +36,28 @@
       </div>
       <div v-if="icon != 'thumbs-up'" class="message-text">
         <span>{{message}}</span>
-        <link-prevue v-if="link != ''" :url="link" />
+        <link-prevue v-if="link != ''" :url="link" >
+          <template slot="loading">
+            <div class="unfurl">
+              <div class="unfurl-block">
+                <p>Loading...</p>
+              </div>
+            </div>
+          </template>
+          <template slot-scope="props">
+            <a v-bind:href="props.url">
+            <div class="unfurl">
+              <div class="unfurl-img" >
+                <img :src="props.img" :alt="props.title">
+              </div>
+              <div class="unfurl-block">
+                <h4 class="unfurl-title">{{props.title}}</h4>
+                <!-- <p class="unfurl-text">{{props.description}}</p> -->
+              </div>
+            </div>
+            </a>
+          </template>
+        </link-prevue>
       </div>
       <div v-else v-html="message" class="thumbs-up">
         
@@ -51,7 +93,7 @@ export default {
        );
       var link = text.match(geturl)
       if (link != null && link.length > 0) {
-        this.link = link[0]
+        this.link = link[0].trim()
       }
     }
   },
@@ -108,6 +150,67 @@ export default {
   }
   .image img {
     width:100%;
+  }
+
+  .message-text img {
+    max-height:200px;
+  }
+
+  .unfurl {
+    width:320px;
+    height:250px;
+    background:#fff;
+    border-radius:10px;
+    margin-bottom:5px;
+    display:flex;
+    align-items:center;
+    flex-wrap:wrap;
+    flex-direction:column;
+    overflow:hidden;
+    border:1px solid #fff;
+    margin-top:5px;
+  }
+
+  .unfurl-img {
+    width:100%;
+    height:180px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+
+  .unfurl-img img {
+    margin:auto;
+    max-height:180px;
+  }
+
+  .unfurl-block {
+    width:100%;
+    background:#f1f0f0;
+    flex-grow:1;
+    flex:1;
+    box-sizing:border-box;
+    padding:10px;
+    max-height: calc(100% - 100px);
+    overflow: hidden;
+    align-items:center;
+    display:flex;
+  }
+
+  .unfurl-title {
+    margin:0;
+    color:#0084ff;
+    text-decoration:none;
+  }
+  a .unfurl, a .unfurl-title {
+    text-decoration:none;
+  }
+
+  .unfurl-text {
+
+  }
+  .unfurl p {
+    color:888;
   }
 
 </style>

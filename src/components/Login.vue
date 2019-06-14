@@ -22,17 +22,17 @@ export default {
   },
   methods: {
   	login() {
-  		firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(
-			(user) => {
-        firebase.firestore().collection("users").doc(user.user.uid).update({
-          lastLogin: Date.now()
-        })
-        this.$router.replace('home')
-			},
-			(err) => {
-				alert('Oops: ' + err.message)
-			}
-		)
+      firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(
+        (user) => {
+          firebase.firestore().collection("users").doc(user.user.uid).update({
+            lastLogin: Date.now()
+          })
+          this.$router.replace('home')
+        },
+        (err) => {
+          alert('Oops: ' + err.message)
+        }
+      )
   	}
   }
 }
